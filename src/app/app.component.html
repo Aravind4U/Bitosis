@@ -1,34 +1,35 @@
 
-<!-- Toolbar -->
 <div class="toolbar" role="banner">
-  <span>Welcome</span>
+  <span class="toolbar_content">BitService Tester</span>
 </div>
 
 <div class="content" role="main">
-
-  <!-- Highlight Card -->
-  <div class="card highlight-card card-small">
-
-
-    <span>{{ title }} app is running!</span>
-
-
-  </div>
-<button (click)="sendMsg()"> send</button>
-<input type="text" name="bitcoin" [(ngModel)]="title" [appMarketDirection]= "title" 
->
-
-
-  
-
- 
-  <!-- Footer -->
-  <footer>
-     
-  </footer>
-
+    <!-- Sidebar -->
+    <aside class="sidebar">
+   </aside>
+    <!-- Content -->
+    <section class="tickerContent" *ngIf="serviceEnableCheck === true" >
+      <div fxLayout="row" fxFlex ="100">
+        <span fxFlex ="50" class="BTC_ETH">BTC_ETH </span>
+        <span fxFlex ="30"></span>
+        <div  fxFlex ="5"><i  [appMarketDirection]="title" class="arrow"></i></div> 
+        <div  fxFlex ="15">
+          <!-- <input type="text" name="bitcoin" [(ngModel)]="title">  -->
+          <p class="currencyValue">{{title }} %</p>
+        </div>
+      </div>
+    </section>
 </div>
+<div *ngIf="serviceEnableCheck === false">
+  <ngx-spinner bdColor="rgba(51, 51, 51, 0.18)" size="medium" color="#fff" type="ball-spin-clockwise">  
+    <p style="font-size: 20px; color: white;">Please Wait. </p>  
+    </ngx-spinner>
+</div>
+<footer>
+  <span style="float: left;padding-top: 7px;">@ 2020 All Rights Reserved</span>
+  <p style="float: right;padding: 4px 15px 0 0;">Author: Aravind Raj<br>
+    <a >aravindrajc57@gmail.com</a></p>
+</footer>
 
-<app-ticker></app-ticker>
 
 <router-outlet></router-outlet>

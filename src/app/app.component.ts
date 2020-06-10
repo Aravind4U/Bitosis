@@ -1,37 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {TickerService } from './ticker/ticker.service';
-
-import { tap,filter,map } from 'rxjs/operators';
-import { WebsocketService } from "./websocket.service";
-
+import { NgxSpinnerService } from "ngx-spinner"; 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  providers: [WebsocketService, TickerService]
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = '1';
-
+export class AppComponent implements OnInit{
+  title: any;
+  public serviceEnableCheck;
   private message = {
     command: "subscribe",
     channel: 1002,
   }
-  constructor(private tickerserivice : TickerService){
-    tickerserivice.messages.subscribe (msg =>{
-      console.log("response fom sever"+ JSON.stringify(msg));
+  constructor(private tickerserivice : TickerService, private SpinnerService: NgxSpinnerService){
+    tickerserivice.messages.subscribe ((msg:any) =>{
+      if(msg != null && msg.length > 0){
+        this.title = msg[0][4];
+        //this.SpinnerService.hide();  
+         this.serviceEnableCheck = true;
+      }
     })
   }
 
 
-
   ngOnInit(){
-    this.tickerserivice.messages.next(this.message);
+    this.SpinnerService.show(); 
+    this.serviceEnableCheck = false; 
+    setTimeout(() =>{
+      this.bitServiceAutoConnect()
+    }, 2500);
+    
   }
-  sendMsg() {
-    console.log("sent from clinet");
+
+  bitServiceAutoConnect() {
     this.tickerserivice.messages.next(this.message);
-  
   }
 
 }
